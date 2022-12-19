@@ -1,0 +1,129 @@
+def game_1():
+  pass
+import pygame
+import math
+import random
+pygame.init()
+def main():
+    pass
+screen = pygame.display.set_mode((640, 480))
+
+background = pygame.image.load('pngwing.com.png')
+pygame.display.set_caption("Collect the Snow")
+
+elf = pygame.image.load('elff.png')
+elf_img = pygame.transform.scale(elf, (85, 105))
+elf_imgx = 200
+elf_imgy = 350
+elf_player_change = 0
+ 
+score_value = 0
+font = pygame.font.Font('ariel.ttf', 32)
+textX = 10
+textY = 15
+
+#game_over
+o_font = pygame.font.Font('ariel.ttf', 65)
+
+#MROE SNOWBALL      
+snow = []
+snow_img = []
+snow_img_x = []
+snow_img_y = []
+snow_change = []
+num_of_snowball = 6
+
+for i in range(num_of_snowball)
+snow.append(pygame.image.load('snowball.png'))
+snow_img.append(pygame.transform.scale(snow, (50, 50)))
+snow_img_x.append(random.randint(0, 400))
+snow_img_y.append(random.randint(320, 480))
+snow_change.append(0)
+
+candy = pygame.image.load('candy.png')
+candy_img = pygame.transform.scale(candy, (50, 70))
+candy_img_x = 20
+candy_img_y = 40
+candy_changex = 0
+candy_changey = 10
+can_dyy = "ready"
+
+def scor_e(x, y):
+    score = font.render("Score: " + str(score_value), True, (255, 255, 255))
+    screen.blit(score, (x, y))
+
+def game_over_text(x, y):
+    o_font = font.render("GAME OVER", True, (255, 255, 255))
+    screen.blit(o_font, (200, 250))
+
+def elf_s(x, y):
+    screen.blit(elf_img, (x, y))
+
+def snow_ball(x, y):
+    screen.blit(snow_img [i], (x, y))
+
+def can_dy(x, y):
+    screen.blit(candy_img, (x + 10, y + 10))
+
+def collision(snow_img_x, snow_img_y, candy_img_x, candy_img_y):
+    distance = math.sqrt((math.pow(snow_img_x-candy_img_x, 2)) + math.pow(snow_img_y -candy_img_y, 2))
+    if distance < 100:
+        return True
+    else:
+        return False
+running = True
+while running:
+    screen.fill((21, 34, 117))
+    screen.blit(background, (0,0))
+    
+    for event in pygame.event.get():
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                running = False
+        if event.key == pygame.K_LEFT:
+            elf_player_change= -0.1
+        if event.key == pygame.K_RIGHT:
+            elf_player_change = 0.1
+        if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+            elf_player_change = 0
+
+        if event.type == pygame.QUIT:
+            running = False
+
+elf_imgx += elf_player_change
+
+if elf_imgx <= 0:
+    elf_imgx = 0
+elif elf_imgx >= 400:
+    elf_imgx = 400
+
+for i in range(num_of_snowball):
+    if snow_img_y [i] > 100:
+        for j in range(num_of_snowball):
+            snow_img_y [i] = 1000
+        game_over_text()
+        break
+    snow_img_x [i]+= snow_change [i]
+
+    if snow_img_x <= 0:
+        snow_img_x [i] = 0
+    elif snow_img_y >= 400:
+        snow_img_y [i] = 400
+
+iscollision = collision(snow_img_x, snow_img_y, candy_img_x, candy_img_y)
+if collision:
+    candy_img_y = 320
+    can_dyy = "ready"
+    score_value += 1
+    snow_img_x = random.randint(0, 400)
+    snow_img_y = random.randint(320, 480)
+
+elf_s(elf_imgx, elf_imgy)
+scor_e(textX, textY)
+pygame.display.update()
+
+if "__name__" == "main":
+    main()
+
+#collecting the now is Michelle's game
+pygame.quit()
